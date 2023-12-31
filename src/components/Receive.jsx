@@ -1,7 +1,7 @@
 
 const Receive = () => {
     return (
-        <div>Receive</div>
+        <div className="flex">Receive</div>
     )
 }
 
