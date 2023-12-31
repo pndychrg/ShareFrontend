@@ -1,0 +1,7 @@
+input[type="file"]{
+    display: none;
+}
+
+.custom-button{
+    @apply border-2 p-2 m-2 shadow rounded-lg
+}
