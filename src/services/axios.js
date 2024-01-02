@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // hosted server
-// axios.defaults.baseURL = "https://shareit-backend-6i82.onrender.com";
+axios.defaults.baseURL = "https://shareit-backend-6i82.onrender.com";
 
 // development server
-axios.defaults.baseURL = "http://127.0.0.1:5000";
+// axios.defaults.baseURL = "http://127.0.0.1:5000";
 
 // http requests
 export const httpGetRequest = async (path) => {
