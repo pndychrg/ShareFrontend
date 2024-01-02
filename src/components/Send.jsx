@@ -1,9 +1,12 @@
 import { useRef, useState } from "react"
+import { uploadImageData } from '../services/apiMethods'
 
 const Send = () => {
 
     const [selectedFile, setSelectedFile] = useState();
     const [renderedImage, setRendredImage] = useState();
+    const [uploadedImgDetails, setUploadedImgDetails] = useState();
+
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -21,27 +24,51 @@ const Send = () => {
         fileInputRef.current.click();
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("File Submitted", selectedFile);
-    }
+        // console.log("File Submitted", selectedFile);
+        if (!selectedFile) {
+            console.log("No File selected");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("img", selectedFile);
 
+        const response = await uploadImageData(formData);
+        if (response) {
+            console.log("Image Uploaded")
+            setUploadedImgDetails(response);
+            console.log(uploadedImgDetails);
+        }
+    }
     return (
         <div>
-            <h2 className="text-xl">Pick the Image file</h2>
-            <p className="text-black/50 mb-4">( Allowed Extensions : jpg,jpeg,png )</p>
-            <img src={renderedImage} alt="preview image" />
-            <form onSubmit={handleSubmit} >
-                <div >
-                    <input type="file" id="file-upload" ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
-                    <button type="button" className="custom-button" onClick={handleButtonClick}>Choose File</button>
-                    <span>
-                        {selectedFile ? `Selected : ${selectedFile.name}` : 'No File Selected'}
-                    </span>
-                </div>
-                <button type="submit" className="custom-button w-full">Submit</button>
-            </form >
+            {/* // Div for uploading the image */}
+            <div>
+                <h2 className="text-xl">Pick the Image file</h2>
+                <p className="text-black/50 mb-4">( Allowed Extensions : jpg,jpeg,png )</p>
+                {renderedImage != null ?
+                    <img src={renderedImage} alt="preview image" /> : <span></span>}
+                <form onSubmit={handleSubmit} >
+                    <div >
+                        <input type="file" id="file-upload" ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
+                        <button type="button" className="custom-button" onClick={handleButtonClick}>Choose File</button>
+                        <span>
+                            {selectedFile ? `Selected : ${selectedFile.name}` : 'No File Selected'}
+                        </span>
+                    </div>
+                    <button type="submit" className="custom-button w-full">Submit</button>
+                </form >
+            </div>
+            {uploadedImgDetails ? <div className="border-2 rounded-lg p-3 m-3">
+                <h5>Sharing Details : </h5>
+                <p className="text-slate-700">
+                    ID String : {uploadedImgDetails?.uuid}<br />
+                    Shared : {uploadedImgDetails?.shared}
+                </p>
+            </div> : <span></span>}
         </div >
+        // div for showing the response from the server
     )
 }
 
