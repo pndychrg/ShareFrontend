@@ -15,15 +15,23 @@ export const LocalStorageService = {
   },
 
   addToSavedUUIDArray(imgDetails) {
-    const savedUUIDs = this.getSavedUUIDArray();
-    savedUUIDs.push(imgDetails.uuid);
-    localStorage.setItem(this.SAVED_UUID, JSON.stringify(savedUUIDs));
+    try {
+      const savedUUIDs = this.getSavedUUIDArray();
+      savedUUIDs.push(imgDetails.uuid);
+      localStorage.setItem(this.SAVED_UUID, JSON.stringify(savedUUIDs));
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   deleteFromSavedUUIDArray(uuid) {
-    var savedUUIDs = this.getSavedUUIDArray();
-    savedUUIDs = savedUUIDs.filter((savedUUID) => savedUUID != uuid);
-    localStorage.setItem(this.SAVED_UUID, JSON.stringify(savedUUIDs));
+    try {
+      var savedUUIDs = this.getSavedUUIDArray();
+      savedUUIDs = savedUUIDs.filter((savedUUID) => savedUUID != uuid);
+      localStorage.setItem(this.SAVED_UUID, JSON.stringify(savedUUIDs));
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   // saving the img details in the localstorage
