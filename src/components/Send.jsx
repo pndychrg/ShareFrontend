@@ -1,8 +1,9 @@
 import { useRef, useState } from "react"
 import { uploadImageData } from '../services/apiMethods'
+import Loading from "../utils/Loading";
 
 const Send = () => {
-
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState();
     const [renderedImage, setRendredImage] = useState();
     const [uploadedImgDetails, setUploadedImgDetails] = useState();
@@ -33,13 +34,14 @@ const Send = () => {
         }
         const formData = new FormData();
         formData.append("img", selectedFile);
-
+        setIsLoading(true)
         const response = await uploadImageData(formData);
         if (response) {
             console.log("Image Uploaded")
             setUploadedImgDetails(response);
             console.log(uploadedImgDetails);
         }
+        setIsLoading(false);
     }
     return (
         <div>
@@ -57,7 +59,9 @@ const Send = () => {
                             {selectedFile ? `Selected : ${selectedFile.name}` : 'No File Selected'}
                         </span>
                     </div>
-                    <button type="submit" className="custom-button w-full">Submit</button>
+                    {isLoading ? <Loading /> :
+                        <button type="submit" className="custom-button w-full">Submit</button>
+                    }
                 </form >
             </div>
             {uploadedImgDetails ? <div className="border-2 rounded-lg p-3 m-3">

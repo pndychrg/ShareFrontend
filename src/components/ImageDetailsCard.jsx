@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import { LocalStorageService } from "../services/localStorageService";
 import { deleteImageData } from "../services/apiMethods";
+import Loading from "../utils/Loading";
 
 const ImageDetailsCard = ({ imgDetails }) => {
-
+    const [isLoading, setIsLoading] = useState(false);
     const [imgString, setImgString] = useState();
 
     useEffect(() => {
@@ -26,11 +27,13 @@ const ImageDetailsCard = ({ imgDetails }) => {
 
     const deleteHandler = async () => {
         // TODO add the img delete from server function too
+        setIsLoading(true);
         const response = await deleteImageData(imgDetails.uuid);
         console.log(response);
         if (response) {
             LocalStorageService.deleteImageDetails(imgDetails.uuid);
         }
+        setIsLoading(false);
 
     }
 
@@ -47,7 +50,9 @@ const ImageDetailsCard = ({ imgDetails }) => {
             </div>
             <div className="flex flex-row flex-wrap">
                 <button onClick={handleDownload} className="shadow-lg rounded-l-xl p-3 bg-slate-400 text-dark flex-grow">Download</button>
-                <button className="shadow-lg rounded-r-xl p-3 ms-1 bg-red-400 text-dark" onClick={deleteHandler}>Delete</button>
+                {isLoading ? <Loading /> :
+                    <button className="shadow-lg rounded-r-xl p-3 ms-1 bg-red-400 text-dark" onClick={deleteHandler}>Delete</button>
+                }
             </div>
         </div>
     )

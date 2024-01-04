@@ -1,7 +1,7 @@
 export const LocalStorageService = {
   // KEY WOULD BE THE UUID and a list will be maintained to fetch all the shared images one by one
   SAVED_UUID: "saved",
-
+  // TODO add try catch for each function
   getSavedUUIDArray() {
     var savedUUIDs = localStorage.getItem(this.SAVED_UUID);
     if (savedUUIDs) {

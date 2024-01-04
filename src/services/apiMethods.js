@@ -6,7 +6,7 @@ import { LocalStorageService } from "./localStorageService";
 export const fetchImageData = async (uuid) => {
   const data = await httpGetRequest(`/download/${uuid}`);
   // Only for Testing purpose
-  // LocalStorageService.saveImgDetails(data);
+  LocalStorageService.saveImgDetails(data);
   return data;
 };
 

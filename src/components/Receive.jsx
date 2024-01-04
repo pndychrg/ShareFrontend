@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchImageData } from "../services/apiMethods";
+import Loading from "../utils/Loading";
 
 
 const Receive = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const [searchString, setSearchString] = useState("");
     const [downloadImgDetails, setDownloadImgDetails] = useState();
 
@@ -16,10 +18,12 @@ const Receive = () => {
     const handleSubmit = async (e) => {
         console.log("Submit tried")
         e.preventDefault();
+        setIsLoading(true);
         const response = await fetchImageData(searchString);
         if (response) {
             setDownloadImgDetails(response);
         }
+        setIsLoading(false);
     }
 
     const handleDownload = () => {
@@ -34,7 +38,8 @@ const Receive = () => {
                 <h1 className="text-5xl">Recieve an Image</h1>
                 <form onSubmit={handleSubmit} className="flex flex-row mt-2 justify-center focus:border-slate-700 items-center m-3">
                     <input type="text" onChange={(e) => setSearchString(e.target.value)} className="border-2 p-2 m-2 rounded-lg w-full focus:border-blue-500" required />
-                    <button type="submit" className="custom-button">Search</button>
+                    <button type="submit" disabled={isLoading} className="custom-button" >{isLoading ? <Loading />
+                        : "Search"}</button>
                 </form>
             </div>
             {/*  for rendering the fetched image details */}
