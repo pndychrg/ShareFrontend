@@ -37,9 +37,9 @@ const Send = () => {
         setIsLoading(true)
         const response = await uploadImageData(formData);
         if (response) {
-            console.log("Image Uploaded")
+            // console.log("Image Uploaded", response)
             setUploadedImgDetails(response);
-            console.log(uploadedImgDetails);
+            // console.log(uploadedImgDetails);
         }
         setIsLoading(false);
     }

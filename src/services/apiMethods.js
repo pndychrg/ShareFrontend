@@ -6,14 +6,15 @@ import { LocalStorageService } from "./localStorageService";
 export const fetchImageData = async (uuid) => {
   const data = await httpGetRequest(`/download/${uuid}`);
   // Only for Testing purpose
-  LocalStorageService.saveImgDetails(data);
+  // LocalStorageService.saveImgDetails(data);
   return data;
 };
 
 export const uploadImageData = async (data) => {
   const response = await httpPostRequest("/upload", data);
+  // console.log(response, "Upload APIMETHODS");
   // saving the data in local storage
-  LocalStorageService.saveImgDetails(data);
+  LocalStorageService.saveImgDetails(response);
   return response;
 };
 
